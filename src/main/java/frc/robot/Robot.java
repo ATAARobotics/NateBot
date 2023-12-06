@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Constants;
+import frc.robot.subsystems.*;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -27,39 +28,14 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
   // create joystick
-  Joystick xBoxController = new Joystick(0);
-
-  // tank drive
-  private final TalonSRX Right_Drive_Motor_1 = new TalonSRX(Constants.Right_Drive_1);
-  private final TalonSRX Right_Drive_Motor_2 = new TalonSRX(Constants.Right_Drive_2);
-  private final TalonSRX Left_Drive_Motor_1 = new TalonSRX(Constants.Left_Drive_1);
-  private final TalonSRX Left_Drive_Motor_2 = new TalonSRX(Constants.Left_Drive_2);
-
-  // elevator
-  private final TalonSRX Elevator_Motor_1 = new TalonSRX(Constants.Elevator_1);
-  private final TalonSRX Elevator_Motor_2 = new TalonSRX(Constants.Elevator_2);
 
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    DriveSubsystem.driveInit();
 
-    // tank drive
-    Right_Drive_Motor_2.follow(Right_Drive_Motor_1);
-    Left_Drive_Motor_2.follow(Left_Drive_Motor_1);
-
-    Right_Drive_Motor_1.setInverted(false);
-    Left_Drive_Motor_1.setInverted(false);
-
-    Right_Drive_Motor_2.setInverted(InvertType.OpposeMaster);
-    // Left drive only works with followmaster
-    Left_Drive_Motor_2.setInverted(InvertType.FollowMaster);
-
-    // elevator
-    Elevator_Motor_2.follow(Elevator_Motor_1);
-
-    Elevator_Motor_1.setInverted(false);
-    Elevator_Motor_2.setInverted(InvertType.OpposeMaster);
+    ElevatorSubsystem.elevatorInit();
 
     m_robotContainer = new RobotContainer();
   }
@@ -117,40 +93,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    // Tank Drive --------------------------------> move to subsystem later
-    double xBoxLeftYAxis = xBoxController.getRawAxis(1);
-    double xBoxRightYAxis = xBoxController.getRawAxis(5);
-
-    double LeftYAxis = xBoxLeftYAxis;
-    double RightYAxis = xBoxRightYAxis;
-
-    if (Constants.Deadzone_Factor >= Math.abs(xBoxLeftYAxis - 0)) {
-      LeftYAxis = 0.0;
-    }
-    if (Constants.Deadzone_Factor >= Math.abs(xBoxRightYAxis - 0)) {
-      RightYAxis = 0.0;
-    }
-
-    Left_Drive_Motor_1.set(ControlMode.PercentOutput, -LeftYAxis);
-    Right_Drive_Motor_1.set(ControlMode.PercentOutput, -RightYAxis);
-
-    // elevator
-    double xBoxLeftTrigger = xBoxController.getRawAxis(2);
-    double xBoxRightTrigger = xBoxController.getRawAxis(3);
-
-    double xBoxTrigger = 0.0;
-
-    if (Constants.Deadzone_Factor <= Math.abs(xBoxRightTrigger - 0)) {
-      xBoxTrigger = xBoxRightTrigger;
-    }
-    if (Constants.Deadzone_Factor <= Math.abs(xBoxLeftTrigger - 0)) {
-      xBoxTrigger = -xBoxLeftTrigger;
-
-    }
+    DriveSubsystem.drivePeriodic();
+    ElevatorSubsystem.elevatorPeriodic();
     
-    Elevator_Motor_1.set(ControlMode.PercentOutput, xBoxTrigger);
-
-
   }
 
   @Override
