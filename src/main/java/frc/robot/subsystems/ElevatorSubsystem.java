@@ -28,21 +28,29 @@ public class ElevatorSubsystem {
         boolean bottomStop_Boolean = bottomStop.get();
         boolean topStop_Boolean = topStop.get();
 
-        double xBoxLeftTrigger = xBoxController.getRawAxis(2);
+        double xBoxLeftTrigger = -xBoxController.getRawAxis(2);
         double xBoxRightTrigger = xBoxController.getRawAxis(3);
 
         double xBoxTrigger = 0.0;
 
         if (Constants.Deadzone_Factor <= Math.abs(xBoxRightTrigger - 0)) {
-        xBoxTrigger = xBoxRightTrigger;
+            if (bottomStop_Boolean) {
+                xBoxTrigger = 0.0;
+            }
+            else {
+                xBoxTrigger = xBoxRightTrigger;
+            }
         }
-        if (Constants.Deadzone_Factor <= Math.abs(xBoxLeftTrigger - 0)) {
-        xBoxTrigger = -xBoxLeftTrigger;
 
+        if (Constants.Deadzone_Factor <= Math.abs(xBoxLeftTrigger - 0)) {
+            if (topStop_Boolean) {
+                xBoxTrigger = 0.0;
+            }
+            else {
+                xBoxTrigger = xBoxLeftTrigger;
+            }
         }
         
-        if (topStop_Boolean == false && bottomStop_Boolean == false) {
-            Elevator_Motor_1.set(ControlMode.PercentOutput, xBoxTrigger * 1.5);
-        }
+        Elevator_Motor_1.set(ControlMode.PercentOutput, xBoxTrigger);
     }
 }
