@@ -41,8 +41,6 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     DriveSubsystem.driveInit();
 
-    ElevatorSubsystem.elevatorInit();
-
     m_robotContainer = new RobotContainer();
   }
 
@@ -112,7 +110,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     DriveSubsystem.drivePeriodic();
-    ElevatorSubsystem.elevatorPeriodic();
+    // ElevatorSubsystem.elevatorPeriodic();
 
   }
 
