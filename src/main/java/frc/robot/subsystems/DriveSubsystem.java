@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -46,25 +47,19 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public CommandBase xBoxButtonA() {
-        // Fix old tank drive toggle
         return run(
                 () -> {
-                    if (tankDriveInvert % 2 == 1) {
-                        tankDrive = true;
-                    } else if (tankDriveInvert % 2 == 0) {
-                        tankDrive = false;
-                    }
-                    tankDriveInvert++;
+                    tankDrive = true;
                 });
     }
 
     public static void drivePeriodic() {
         double xBoxLeftYAxis = xBoxController.getRawAxis(1);
         double xBoxLeftXAxis = xBoxController.getRawAxis(0);
-        double RightYAxis = -xBoxController.getRawAxis(5);
+        double RightYAxis = xBoxController.getRawAxis(5);
 
-        double LeftYAxis = -xBoxLeftYAxis;
-        double LeftXAxis = -xBoxLeftXAxis;
+        double LeftYAxis = xBoxLeftYAxis;
+        double LeftXAxis = xBoxLeftXAxis;
 
         if (tankDrive == false) {
 
@@ -103,6 +98,5 @@ public class DriveSubsystem extends SubsystemBase {
             Left_Drive_Motor_1.set(ControlMode.PercentOutput, 0);
             Right_Drive_Motor_1.set(ControlMode.PercentOutput, 0);
         }
-
     }
 }
