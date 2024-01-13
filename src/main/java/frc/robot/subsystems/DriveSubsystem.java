@@ -71,8 +71,8 @@ public class DriveSubsystem extends SubsystemBase {
             } else if (Constants.Deadzone_Factor >= Math.abs(LeftYAxis)
                     && Constants.Deadzone_Factor <= Math.abs(LeftXAxis)) {
                 // Turning In Place
-                Left_Drive_Motor_1.set(ControlMode.PercentOutput, -LeftXAxis);
-                Right_Drive_Motor_1.set(ControlMode.PercentOutput, LeftXAxis);
+                Left_Drive_Motor_1.set(ControlMode.PercentOutput, LeftXAxis);
+                Right_Drive_Motor_1.set(ControlMode.PercentOutput, -LeftXAxis);
 
             } else {
 
@@ -83,8 +83,8 @@ public class DriveSubsystem extends SubsystemBase {
 
                 } else {
                     // Turning While Driving
-                    Left_Drive_Motor_1.set(ControlMode.PercentOutput, (LeftYAxis) - (LeftXAxis));
-                    Right_Drive_Motor_1.set(ControlMode.PercentOutput, (LeftYAxis) - (-LeftXAxis));
+                    Left_Drive_Motor_1.set(ControlMode.PercentOutput, (LeftYAxis) - (-LeftXAxis));
+                    Right_Drive_Motor_1.set(ControlMode.PercentOutput, (LeftYAxis) - (LeftXAxis));
                 }
             }
         } else if (Math.abs(LeftYAxis) >= Constants.Deadzone_Factor
