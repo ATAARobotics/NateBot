@@ -64,8 +64,7 @@ public class RobotContainer {
     m_driverController.b().onTrue(m_ElevatorSubsystem.xBoxButtonB());
     m_driverController.rightBumper().onTrue(m_ElevatorSubsystem.rightBumper());
     m_driverController.leftBumper().onTrue(m_ElevatorSubsystem.leftBumper());
-    // m_driverController.y().onTrue(m_ElevatorSubsystem.xBoxButtonY());
-    // m_driverController.x().onTrue(m_ElevatorSubsystem.xBoxButtonX());
+    m_driverController.x().onTrue(m_ElevatorSubsystem.xBoxButtonX());
     m_driverController.a().onTrue(m_DriveSubsystem.xBoxButtonA());
   }
 
