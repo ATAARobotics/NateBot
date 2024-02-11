@@ -27,7 +27,7 @@ public final class Constants {
   public static final int Elevator_1 = 5;
   public static final int Elevator_2 = 6;
 
-  public static final double Deadzone_Factor = 0.2;
+  public static final double Deadzone_Factor = 0.1;
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
