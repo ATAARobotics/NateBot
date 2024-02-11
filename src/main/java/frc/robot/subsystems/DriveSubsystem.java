@@ -28,6 +28,7 @@ public class DriveSubsystem extends SubsystemBase {
     public static double tx;
     public static double ty;
     public static double ta;
+    public static boolean targetNote;
     public static boolean auto = false;
 
     public static void driveInit() {
@@ -94,6 +95,17 @@ public class DriveSubsystem extends SubsystemBase {
         NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
         tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(1);
         ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(1);
+        distr = (15.24 - 5.56) * Math.toDegrees(Math.tan(90 - Math.toRadians(ry)));
+        // f(ty) = tan(90-ty) x 15.24-5.56
+        // 5.56 = Ring Height
+        // 15.24 = LimeLight Height From Carpet
+        // ty = Angle of Elevation From LimeLight
+
+        if (ty < 7) {
+            targetNote = false;
+        } else {
+            targetNote = true;
+        }
 
         if (auto == true) {
 
